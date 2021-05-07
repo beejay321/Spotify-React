@@ -7,41 +7,41 @@ class Home extends React.Component {
   state = {
     value: "",
     query: "",
-    songs: [],
+    albums: [],
     category: "",
     isLoading: false,
     isError: false,
   };
 
-//   componentDidMount = async (props) => {
-//     this.setState({
-//       isLoading: true,
-//     });
+  componentDidMount = async () => {
+    this.setState({
+      isLoading: true,
+    });
 
-//     try {
-//       const response = await fetch(
-//         `https://striveschool-api.herokuapp.com/api/deezer/search?q=${query}`
-//       );
-//       console.log(response);
-//       if (response.ok) {
-//         let data = await response.json();
-//         console.log(data.Search);
-//         this.setState({
-//           movies: data.Search,
-//           isError: false,
-//           isLoading: false,
-//         });
-//       } else {
-//         console.log("we got an error");
-//         this.setState({ isError: true, isLoading: false });
-//       }
-//     } catch (error) {
-//       console.log(error);
-//       this.setState({ isError: true, isLoading: false });
-//     }
-//   };
-
-//   componentDidMount;
+    try {
+      const response = await fetch(
+        `https://striveschool-api.herokuapp.com/api/deezer/search?q=eminem`
+      );
+      console.log(response);
+      if (response.ok) {
+        let songs = await response.json();
+        console.log(songs.data);
+        this.setState({
+          albums: songs.data,
+          isError: false,
+          isLoading: false,
+        });
+        console.log("songs parsed", songs);
+        console.log("data parsed", this.state.albums);
+      } else {
+        console.log("we got an error");
+        this.setState({ isError: true, isLoading: false });
+      }
+    } catch (error) {
+      console.log(error);
+      this.setState({ isError: true, isLoading: false });
+    }
+  };
 
   render() {
     return (
@@ -77,7 +77,45 @@ class Home extends React.Component {
               <div className="col-10">
                 <div id="results">
                   <h2 className="pl-3 text-white"></h2>
-                  <div className="row row-cols-1 row-cols-sm-2 row-cols-lg-3 row-cols-xl-4 imgLinks py-3"></div>
+                  <div className="row row-cols-1 row-cols-sm-2 row-cols-lg-3 row-cols-xl-4 imgLinks py-3">
+                    {this.state.albums.map((albumm) => (
+                      <div className="col text-center">
+                        <img
+                          class="img-fluid"
+                          src={albumm.album.cover_medium}
+                          alt={albumm.album.title}
+                          onClick={() =>
+                            this.props.history.push(
+                              "/albumpage/" + albumm.album.id
+                            )
+                          }
+                        />
+
+                        <p>
+                          <Link
+                            onClick={() =>
+                              this.props.history.push(
+                                "/albumpage/" + albumm.album.id
+                              )
+                            }
+                          >
+                            {albumm.album.title}
+                          </Link>
+                          <br />
+                          <Link
+                            onClick={() =>
+                              this.props.history.push(
+                                "/artistpage/" + albumm.artist.id
+                              )
+                            }
+                          >
+                            {albumm.artist.name}
+                          </Link>
+                          {/* <Link to="/artistpage">{albumm.id}</Link> */}
+                        </p>
+                      </div>
+                    ))}
+                  </div>
                 </div>
               </div>
             </div>
