@@ -46,7 +46,7 @@ class Home extends React.Component {
   render() {
     return (
       <Container fluid>
-        <Row>
+        <Row className="py-5">
           <Col xs={2}></Col>
 
           <div className="col-12 col-md-8 offset-md-3 mainPage">

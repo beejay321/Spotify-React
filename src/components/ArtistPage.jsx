@@ -5,7 +5,8 @@ import MyNav from "./MyNav";
 
 class ArtistPage extends React.Component {
   state = {
-    artistToShow: null,
+    artist: "",
+    artistToShow: [],
     isLoading: false,
     isError: false,
   };
@@ -24,8 +25,9 @@ class ArtistPage extends React.Component {
       console.log(response);
       if (response.ok) {
         let artist = await response.json();
-        console.log(artist.data);
+        console.log(artist);
         this.setState({
+          artist: artist,
           artistToShow: artist.data,
           isError: false,
           isLoading: false,
@@ -55,7 +57,7 @@ class ArtistPage extends React.Component {
 
             <Row>
               <Col md={10} lg={10} className="mt-5">
-                <h2 className="titleMain">STING</h2>
+                <h2 className="titleMain">{}</h2>
                 <div id="followers">1154386 followers</div>
                 <div
                   className="d-flex justify-content-center"
